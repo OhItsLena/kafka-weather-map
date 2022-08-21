@@ -6,6 +6,7 @@ import requests
 import os
 from dotenv import load_dotenv
 
+
 @dataclass
 class OpenWeatherMap:
     api_key: str
@@ -13,14 +14,14 @@ class OpenWeatherMap:
 
     def __init__(self):
         load_dotenv()
-        self.api_key            = os.getenv('KEY')
-        self.base_url  = 'https://api.openweathermap.org/data/2.5'
-        self.geo_url   = 'http://api.openweathermap.org/geo/1.0'
+        self.api_key = os.getenv('KEY')
+        self.base_url = 'https://api.openweathermap.org/data/2.5'
+        self.geo_url = 'http://api.openweathermap.org/geo/1.0'
 
     def build_url(self, city: json) -> str:
         # https://api.openweathermap.org/data/2.5/weather?lat=33.44&lon=-94.04&exclude=hourly,daily&appid={API key}
         static_params = 'units=metric&exclude=current,minutely,hourly,alerts&lang=de'
-        url = f'{self.base_url}/weather?lat={city["latitude"]}&lon={city["longitude"]}&{static_params}&appid={self.api_key}'
+        url = f'{self.base_url}/forecast?lat={city["latitude"]}&lon={city["longitude"]}&{static_params}&appid={self.api_key}'
         return url
 
     def get_coordinates(self, city: str, country_code: str = None):
