@@ -5,6 +5,7 @@ from kafka3 import KafkaProducer, KafkaConsumer, TopicPartition
 
 
 class Kafka:
+    #kafka_bootstrap_server = 'kafka-1:19092'
     kafka_bootstrap_server = 'localhost:9092'
     kafka_offset_reset = 'earliest'
     kafka_topic = 'weather'
@@ -19,12 +20,13 @@ class Kafka:
 
 
 class KafkaWriter(Kafka):
-    def __init__(self):
+    def __init__(self, kafka_topic: str):
         try:
             self.producer = KafkaProducer(
                 bootstrap_servers=self.kafka_bootstrap_server,
                 key_serializer=str.encode,
                 value_serializer=lambda v: json.dumps(v).encode('utf-8'))
+            self.kafka_topic = kafka_topic
 
         except ValueError as ve:
             # might hapen when the bootstrap server is unreachable
