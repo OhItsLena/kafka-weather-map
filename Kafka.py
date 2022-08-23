@@ -6,9 +6,9 @@ from kafka3 import KafkaProducer, KafkaConsumer, TopicPartition
 
 class Kafka:
     #kafka_bootstrap_server = 'kafka-1:19092'
-    kafka_bootstrap_server = 'localhost:9092'
+    kafka_bootstrap_server = 'localhost:9092,localhost:9093,localhost:9094'
     kafka_offset_reset = 'earliest'
-    kafka_topic = 'weather'
+    kafka_topic = 'weather.forecast'
     topic_partition = TopicPartition(kafka_topic, 0)
 
     producer: KafkaProducer
@@ -39,7 +39,7 @@ class KafkaWriter(Kafka):
 
 
 class KafkaReader(Kafka):
-    def __init__(self):
+    def __init__(self, kafka_topic: str):
         try:
             self.consumer = KafkaConsumer(
                 bootstrap_servers=self.kafka_bootstrap_server,
@@ -51,6 +51,7 @@ class KafkaReader(Kafka):
                 key_deserializer=lambda k: k.decode('utf-8'),
                 value_deserializer=lambda m: json.loads(m.decode('utf-8'))
             )
+            self.kafka_topic = kafka_topic
         except ValueError as ve:
             # might hapen when the bootstrap server is unreachable
             print(f'  !!! error while creating kafka consumer: {ve}')
@@ -58,7 +59,7 @@ class KafkaReader(Kafka):
             self.consumer.assign([self.topic_partition])
 
     def retrieve(self) -> {}:
-        predictions = []
+        predictions = {}
         if self.consumer is not None:
             while True:  # poll until the size of returned messages is zero, then break the loop
                 messages = self.consumer.poll(timeout_ms=3000)
@@ -69,5 +70,5 @@ class KafkaReader(Kafka):
                 for key in messages.keys():
                     records = messages[key]
                     for record in records:
-                        predictions.append(record.value)
+                        predictions[record.key] = record.value
         return predictions

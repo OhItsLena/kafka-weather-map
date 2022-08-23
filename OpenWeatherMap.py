@@ -14,7 +14,7 @@ class OpenWeatherMap:
 
     def __init__(self):
         load_dotenv()
-        self.api_key = os.getenv('KEY')
+        self.api_key = os.getenv('OPENWEATHERMAPKEY')
         self.base_url = 'https://api.openweathermap.org/data/2.5'
         self.geo_url = 'http://api.openweathermap.org/geo/1.0'
 
