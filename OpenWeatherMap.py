@@ -13,17 +13,19 @@ class OpenWeatherMap:
     base_url: str
 
     def __init__(self):
-        load_dotenv()
-        self.api_key = os.getenv('OPENWEATHERMAPKEY')
-        self.base_url = 'https://api.openweathermap.org/data/2.5'
-        self.geo_url = 'http://api.openweathermap.org/geo/1.0'
+        load_dotenv() # required to read env variables
+        self.api_key = os.getenv('OPENWEATHERMAPKEY') # get personal api key from .env file
+        self.base_url = 'https://api.openweathermap.org/data/2.5' # url for weather data
+        self.geo_url = 'http://api.openweathermap.org/geo/1.0' # url for geo data
 
+    # build url for forecast request with city coordinates
     def build_url(self, city: json) -> str:
-        # https://api.openweathermap.org/data/2.5/weather?lat=33.44&lon=-94.04&exclude=hourly,daily&appid={API key}
+        # https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API key}
         static_params = 'units=metric&exclude=current,minutely,hourly,alerts&lang=de'
         url = f'{self.base_url}/forecast?lat={city["latitude"]}&lon={city["longitude"]}&{static_params}&appid={self.api_key}'
         return url
 
+    # get city coordinates by city name + country code
     def get_coordinates(self, city: str, country_code: str = None):
         # http://api.openweathermap.org/geo/1.0/direct?q={city name},{state code},{country code}&limit={limit}&appid={API key}
         if country_code is not None:
@@ -38,6 +40,7 @@ class OpenWeatherMap:
             print(f'    ! error while loading url {url}: {e}')
         return None
 
+    # make request to weather api with city url
     def get_forecast(self, city: json) -> Optional[Dict]:
         url = self.build_url(city)
         try:

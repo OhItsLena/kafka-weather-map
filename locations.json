@@ -3,8 +3,92 @@
         "latitude": 47.5025779,
         "longitude": 9.7472924
     },
+    "Wien": {
+        "latitude": 48.2083537,
+        "longitude": 16.3725042
+    },
+    "Paris": {
+        "latitude": 48.8588897,
+        "longitude": 2.3200410217200766
+    },
+    "London": {
+        "latitude": 51.5073219,
+        "longitude": -0.1276474
+    },
+    "Prag": {
+        "latitude": 50.0596288,
+        "longitude": 14.446459273258009
+    },
+    "Florenz": {
+        "latitude": 43.7698712,
+        "longitude": 11.2555757
+    },
+    "Kopenhagen": {
+        "latitude": 55.6867243,
+        "longitude": 12.5700724
+    },
+    "Aachen": {
+        "latitude": 50.776351,
+        "longitude": 6.083862
+    },
+    "Berlin": {
+        "latitude": 52.5170365,
+        "longitude": 13.3888599
+    },
+    "Bonn": {
+        "latitude": 50.735851,
+        "longitude": 7.10066
+    },
+    "Dresden": {
+        "latitude": 51.0493286,
+        "longitude": 13.7381437
+    },
+    "Frankfurt am Main": {
+        "latitude": 50.1106444,
+        "longitude": 8.6820917
+    },
+    "Freiburg": {
+        "latitude": 47.9960901,
+        "longitude": 7.8494005
+    },
+    "Kiel": {
+        "latitude": 54.3227085,
+        "longitude": 10.135555
+    },
+    "K\u00f6ln": {
+        "latitude": 50.938361,
+        "longitude": 6.959974
+    },
+    "Leipzig": {
+        "latitude": 51.3406321,
+        "longitude": 12.3747329
+    },
+    "L\u00fcbeck": {
+        "latitude": 53.866444,
+        "longitude": 10.684738
+    },
+    "Mannheim": {
+        "latitude": 49.4892913,
+        "longitude": 8.4673098
+    },
+    "M\u00fcnchen": {
+        "latitude": 48.1371079,
+        "longitude": 11.5753822
+    },
+    "M\u00fcnster": {
+        "latitude": 51.9625101,
+        "longitude": 7.6251879
+    },
     "Ravensburg": {
         "latitude": 47.7811014,
         "longitude": 9.612468
+    },
+    "Rostock": {
+        "latitude": 54.0924445,
+        "longitude": 12.1286127
+    },
+    "Stuttgart": {
+        "latitude": 48.7784485,
+        "longitude": 9.1800132
     }
 }

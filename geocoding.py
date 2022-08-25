@@ -3,14 +3,40 @@ import os
 
 from OpenWeatherMap import OpenWeatherMap
 
-openWeatherMap = OpenWeatherMap()
+# This file is used to query lat/long information for city from the OpenWeatherMap Geocoding API
+# https://openweathermap.org/api/geocoding-api
 
+openWeatherMap = OpenWeatherMap()  # using our OpenWeatherMap class
+
+# list of cities we want to find lat/long for
+# city name + country code to facilitate getting the right city
 cities = [
-    ('Bregenz','AT'),
-    ('Ravensburg', 'DE')
-        ]
+    ('Bregenz', 'AT'),
+    ('Wien', 'AT'),
+    ('Paris', 'FR'),
+    ('London', 'GB'),
+    ('Prag', 'CZ'),
+    ('Florenz', 'IT'),
+    ('Kopenhagen', 'DK'),
+    ('Aachen', 'DE'),
+    ('Berlin', 'DE'),
+    ('Bonn', 'DE'),
+    ('Dresden', 'DE'),
+    ('Frankfurt am Main', 'DE'),
+    ('Freiburg', 'DE'),
+    ('Kiel', 'DE'),
+    ('Köln', 'DE'),
+    ('Leipzig', 'DE'),
+    ('Lübeck', 'DE'),
+    ('Mannheim', 'DE'),
+    ('München', 'DE'),
+    ('Münster', 'DE'),
+    ('Ravensburg', 'DE'),
+    ('Rostock', 'DE'),
+    ('Stuttgart', 'DE')
+]
 
-
+# save json to disk as locations.json in current directory
 def save_locations(data: json) -> bool:
     filename = 'locations.json'
     temp_filename = f'{filename}.tmp'
@@ -23,7 +49,7 @@ def save_locations(data: json) -> bool:
     os.rename(temp_filename, filename)
     return True
 
-
+# use OpenWeatherMap class to get lat/long for every city in the list
 def get_coordinates() -> None:
     locations = {}
     for city in cities:
@@ -34,5 +60,5 @@ def get_coordinates() -> None:
     print(json.dumps(locations, indent=4))
     save_locations(locations)
 
-
+# save lat/long for cities to locations.json when executing the .py file
 get_coordinates()
