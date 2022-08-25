@@ -119,7 +119,7 @@ class InfoMap:
     def synced_map(self) -> None:
         df = pd.DataFrame(columns=['datetime', 'temp', 'city', 'advice'])
         try:
-            print("Map Synchronisation started ...")
+            print("Map Synchronisation started, waiting for new data ...")
             while True:
                 msg = self.kafkaConfluentReader.poll(
                     1.0)  # get message a current offset

@@ -5,16 +5,17 @@ from typing import Dict
 from dotenv import load_dotenv
 from confluent_kafka import SerializingProducer, DeserializingConsumer, TopicPartition
 
-# custom class based on confluent_kafka SerializigProducer capabilities
+# custom class based on confluent_kafka SerializigProducer capabilities‚
 class KafkaConfluentWriter:
     producer = None
     topic = None
 
     # topic can be set when instanziating the writer class
     def __init__(self, topic: str) -> None:
-        load_dotenv() # required to read env variables
+        load_dotenv()  # required to read env variables
         self.producer = SerializingProducer({
-            'bootstrap.servers': os.getenv('BOOTSTRAPSERVERS'), # servers from env variable to switch more easily based on used environment
+            # servers from env variable to switch more easily based on used environment
+            'bootstrap.servers': os.getenv('BOOTSTRAPSERVERS'),
             'key.serializer': self.keyencoder,
             'value.serializer': self.valueencoder
         })
@@ -50,11 +51,12 @@ class KafkaConfluentReader:
 
     # topic and commit strategy (auto commits) can be set when instanziating the writer class
     def __init__(self, topic: str, autoCommit: bool) -> None:
-        load_dotenv() # required to read env variables
+        load_dotenv()  # required to read env variables
         self.topic = topic
         self.consumer = DeserializingConsumer({
-            'bootstrap.servers': os.getenv('BOOTSTRAPSERVERS'), # servers from env variable to switch more easily based on used environment
-            'group.id': uuid.uuid4().hex, # using some unique id for the reader
+            # servers from env variable to switch more easily based on used environment
+            'bootstrap.servers': os.getenv('BOOTSTRAPSERVERS'),
+            'group.id': uuid.uuid4().hex,  # using some unique id for the reader
             'client.id': uuid.uuid4().hex,
             'auto.offset.reset': 'earliest',
             'enable.auto.commit': autoCommit,
@@ -80,18 +82,22 @@ class KafkaConfluentReader:
     # get the most recent message, no matter where the actual offset would be
     def get_latest_message(self, ms: float) -> object:
         offsets = self.consumer.get_watermark_offsets(
-            TopicPartition(self.topic, 0)) # get highest possible offset
+            TopicPartition(self.topic, 0))  # get highest possible offset
         self.consumer.seek(TopicPartition(
-            self.topic, 0, offsets[1]-1 if offsets[1] > 0 else 0)) # seek to highest offset minus one message
-        return self.consumer.poll(ms) # poll message
+            self.topic, 0, offsets[1]-1 if offsets[1] > 0 else 0))  # seek to highest offset minus one message
+        return self.consumer.poll(ms)  # poll message
 
     # get list of unconsumed messages
     def get_all_messages(self, ms: float) -> Dict[str, str]:
-        messages = {} # messages as dictionary
+        messages = {}  # messages as dictionary
+        offsets = self.consumer.get_watermark_offsets(
+            TopicPartition(self.topic, 0))  # get smallest possible offset
+        self.consumer.seek(TopicPartition(
+            self.topic, 0, offsets[0]))  # seek to beginning
         while True:
             msg = self.consumer.poll(ms)
             if msg is None:
-                break # stop and return list if no new messages are left
+                break  # stop and return list if no new messages are left
             else:
                 messages[msg.key()] = msg.value()
         return messages
